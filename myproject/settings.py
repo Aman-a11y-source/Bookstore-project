@@ -27,8 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '%%q55o%+dti&wyi=b43t@^76-d73cd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['https://bookstore-project-id4z.onrender.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = ['bookstore-project-id4z.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 

@@ -73,12 +73,12 @@ def register(request):
     
     return render(request, 'registration/register.html', {'form': form})
 
-# New Views for static pages
+
 def about_us_view(request):
     return render(request, 'books/about_us.html')
 
 def contact_view(request):
-    # You can pass context here if needed, e.g., contact details
+   
     context = {
         'phone_number': '+91 8972624560',
         'instagram_url': 'https://www.instagram.com/aman.brahma/',

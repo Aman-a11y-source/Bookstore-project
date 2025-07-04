@@ -4,9 +4,9 @@ from django.http import Http404
 from django.views.generic import ListView,DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from books.form import ReviewForm, RegisterForm # Import your new RegisterForm
-from django.contrib.auth import login # Import login function
-from django.contrib.auth.models import User # Import User model for validation
+from books.form import ReviewForm, RegisterForm
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 
 class BookListView(ListView):
     model = Book
@@ -61,18 +61,34 @@ def author(request,author):
     books= Book.objects.filter(authors__name=author)
     return render(request, "books/book_list.html", {'book_list': books, 'author': author})
 
-# New Registration View
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save() # Save the new user
-            login(request, user) # Log the user in immediately after registration
-            return redirect('book.all') # Redirect to the book list page after successful registration
-        # If form is not valid, it will fall through to render the form with errors
+            user = form.save()
+            login(request, user)
+            return redirect('book.all')
     else:
-        form = RegisterForm() # Empty form for GET request
+        form = RegisterForm()
     
-    # Render the registration template with the form
     return render(request, 'registration/register.html', {'form': form})
+
+# New Views for static pages
+def about_us_view(request):
+    return render(request, 'books/about_us.html')
+
+def contact_view(request):
+    # You can pass context here if needed, e.g., contact details
+    context = {
+        'phone_number': '+91 8972624560',
+        'instagram_url': 'https://www.instagram.com/aman.brahma/',
+        'linkedin_url': 'https://www.linkedin.com/in/aman-brahma-141282315/',
+    }
+    return render(request, 'books/contact.html', context)
+
+def privacy_policy_view(request):
+    return render(request, 'books/privacy_policy.html')
+
+def terms_of_service_view(request):
+    return render(request, 'books/terms_of_service.html')
 

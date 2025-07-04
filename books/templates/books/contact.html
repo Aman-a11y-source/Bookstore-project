@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Bookstore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .font-amazon-ember { font-family: 'Amazon Ember', Arial, sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; border-radius: 10px; }
+        .ab-logo { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: #febd69; color: #131921; font-weight: bold; font-size: 1.5rem; border-radius: 50%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); transition: transform 0.2s ease-in-out; }
+        .ab-logo:hover { transform: scale(1.1); }
+        .icon-link { display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 9999px; background-color: #e6e6e6; color: #131921; font-weight: 500; transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out; }
+        .icon-link:hover { background-color: #d1d1d1; transform: translateY(-2px); }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-[#131921] text-white py-0 shadow-md">
+        <div class="flex items-center h-16 max-w-7xl mx-auto px-4">
+            <div class="ab-logo mr-4">AB</div>
+            <a href="{% url 'book.all' %}" class="font-amazon-ember text-4xl font-bold text-[#febd69] tracking-wider transition-colors duration-300 hover:text-yellow-300 cursor-pointer">Bookstore</a>
+            <div class="hidden sm:flex items-center space-x-6 ml-auto">
+                <a href="{% url 'book.all' %}" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">Home</a>
+                <a href="{% url 'about_us' %}" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">About Us</a>
+                <a href="{% url 'contact' %}" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">Contact</a>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post" class="inline-block m-0 p-0">{% csrf_token %}<button type="submit" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md bg-transparent border-none cursor-pointer">Logout</button></form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">Sign In</a>
+                {% endif %}
+            </div>
+            <div class="sm:hidden ml-auto"><button class="text-white text-2xl focus:outline-none">&#9776;</button></div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="max-w-4xl mx-auto my-8 p-8 bg-white rounded-lg shadow-xl">
+        <h1 class="text-center text-5xl font-extrabold text-gray-900 mb-8 pb-4 border-b-4 border-[#febd69] leading-tight tracking-wide">
+            Contact Us
+        </h1>
+
+        <div class="space-y-8 text-lg text-gray-700 leading-relaxed">
+            <p>
+                We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, feel free to reach out using the information below.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">General Inquiries</h2>
+                    <p class="mb-2">
+                        <strong class="font-semibold">Email:</strong> atanuaman25@gmail.com
+                    </p>
+                    <p>
+                        <strong class="font-semibold">Phone:</strong> +91 8972624560
+                    </p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Social Media</h2>
+                    <div class="flex flex-col space-y-3">
+                        <a href="{{ instagram_url }}" target="_blank" rel="noopener noreferrer" class="icon-link">
+                            <svg class="w-6 h-6 mr-2 text-pink-500" fill="currentColor" viewBox="0 0 24 24"><path d="M7.91 2h8.18A6.09 6.09 0 0122 7.91v8.18A6.09 6.09 0 0116.09 22H7.91A6.09 6.09 0 012 16.09V7.91A6.09 6.09 0 017.91 2zm0 2A3.91 3.91 0 004 7.91v8.18A3.91 3.91 0 007.91 20h8.18A3.91 3.91 0 0020 16.09V7.91A3.91 3.91 0 0016.09 4H7.91zM12 7.5A4.5 4.5 0 1012 16.5A4.5 4.5 0 0012 7.5zm0 2A2.5 2.5 0 1112 14.5A2.5 2.5 0 0112 9.5zM17.25 6.5A1.25 1.25 0 1017.25 9A1.25 1.25 0 0017.25 6.5z"/></svg>
+                            Instagram
+                        </a>
+                        <a href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer" class="icon-link">
+                            <svg class="w-6 h-6 mr-2 text-blue-700" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 2H3.553C2.69 2 2 2.69 2 3.553v16.894C2 21.31 2.69 22 3.553 22h16.894C21.31 22 22 21.31 22 20.447V3.553C22 2.69 21.31 2 20.447 2zM8 19H5V8h3v11zM6.5 6.75A1.75 1.75 0 116.5 3.25A1.75 1.75 0 016.5 6.75zM19 19h-3v-5.625c0-1.25-.875-2.125-2.125-2.125S11.75 12.125 11.75 13.375V19h-3V8h3v1.75c.625-.875 1.75-1.75 3-1.75 2.625 0 4.25 1.75 4.25 5.5V19z"/></svg>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#131921] text-white text-center py-6 mt-10">
+        <p class="text-sm">&copy; 2025 Bookstore. All rights reserved.</p>
+        <div class="flex justify-center space-x-4 mt-2">
+            <a href="{% url 'privacy_policy' %}" class="text-white hover:text-[#febd69]">Privacy Policy</a>
+            <a href="{% url 'terms_of_service' %}" class="text-white hover:text-[#febd69]">Terms of Service</a>
+        </div>
+    </footer>
+
+</body>
+</html>

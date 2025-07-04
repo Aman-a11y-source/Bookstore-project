@@ -3,66 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Tailwind CSS CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter (a good general sans-serif font) -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <title>Book App - Login</title>
     <style>
-        /* Custom styles for the exact Amazon look */
+        
         body {
-            font-family: 'Inter', sans-serif; /* Using Inter for a clean, readable font */
-            background-color: #f3f3f3; /* Very light gray background, almost white */
+            font-family: 'Inter', sans-serif; 
+            background-color: #f3f3f3; 
             display: flex;
-            justify-content: center; /* Center content horizontally */
-            align-items: center; /* Center content vertically */
-            min-height: 100vh; /* Ensure body takes full viewport height */
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
             margin: 0;
-            padding: 20px; /* Add some padding around the content */
-            box-sizing: border-box; /* Include padding in element's total width and height */
+            padding: 20px; 
+            box-sizing: border-box; 
         }
 
-        /* The main section will now take its width from the login form inside it */
+        
         .main-content-section {
-            width: auto; /* Allow content to define width */
-            padding: 0; /* Remove padding from this section */
+            width: auto; 
+            padding: 0; 
         }
 
         @media (max-width: 768px) {
             body {
-                align-items: flex-start; /* Align to top on small screens to prevent content squishing */
-                padding-top: 40px; /* Add more top padding on mobile */
+                align-items: flex-start; /
+                padding-top: 40px; 
             }
             .main-content-section {
-                width: 100%; /* Full width on small screens */
-                padding: 0 15px; /* Add horizontal padding for mobile */
+                width: 100%; 
+                padding: 0 15px; 
             }
         }
 
-        /* Custom styles for input fields to exactly match Amazon's look */
+        
         input[type="text"],
         input[type="password"] {
             appearance: none;
             display: block;
             width: 100%;
-            padding: 8px 12px; /* px-3 py-2 */
-            border: 1px solid #a1a1a1; /* gray-400 */
-            border-radius: 2px; /* rounded-sm */
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
-            color: #1f2937; /* gray-900 */
-            font-size: 0.875rem; /* text-sm */
+            padding: 8px 12px; 
+            border: 1px solid #a1a1a1; 
+            border-radius: 2px; 
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            color: #1f2937; 
+            font-size: 0.875rem; 
             line-height: 1.25rem;
-            outline: none; /* Remove default outline */
+            outline: none; 
             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
-            border-color: #e77600; /* Exact Amazon orange border on focus */
-            box-shadow: 0 0 0 3px rgba(228, 121, 17, 0.5); /* Orange glow on focus */
+            border-color: #e77600; 
+            box-shadow: 0 0 0 3px rgba(228, 121, 17, 0.5);
         }
 
-        /* Custom style for the login button gradient */
+       
         .amazon-button-gradient {
             background-image: linear-gradient(to bottom, #f7dfa5, #f0c14b);
             border: 1px solid #a2a2a2;
@@ -75,11 +75,11 @@
             outline: none;
             box-shadow: 0 0 0 3px rgba(247, 160, 0, 0.5);
         }
-        /* Style for the "Create your account" button */
+        
         .amazon-create-account-button {
-            background-color: #e6e6e6; /* Light gray for create account button */
+            background-color: #e6e6e6; 
             border: 1px solid #a2a2a2;
-            color: #131921; /* Dark text */
+            color: #131921; 
             font-weight: normal;
             box-shadow: 0 1px 0 rgba(0,0,0,.08);
             transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;

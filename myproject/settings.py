@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%%q55o%+dti&wyi=b43t@^76-d73cdn@=7dk5@h3z^p#+$qqa%'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '%%q55o%+dti&wyi=b43t@^76-d73cdn@=7dk5@h3z^p#+$qqa%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -37,10 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'books',
+    'widget_tweaks',
+  # Custom app for the books functionality
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -54,7 +60,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR), 'templates'],  # Directory for custom templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,7 +78,12 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
+if os.environ.get('DJANGO_DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -115,8 +126,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory to collect static files
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+LOGIN_REDIRECT_URL = '/books'  # Redirect to books index after login
+LOGIN_URL='/login'  # URL to redirect to for login
+LOGOUT_REDIRECT_URL = '/login'  # Redirect to login after logout
 
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '74ea4568716d15'
+EMAIL_HOST_PASSWORD = 'a685e6e96327e9'
+EMAIL_PORT = '2525'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
+ # Directory to store uploaded media
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

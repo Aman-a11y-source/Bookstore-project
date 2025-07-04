@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter (a good general sans-serif font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Book App - Login</title>
+    <style>
+        /* Custom styles for the exact Amazon look */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter for a clean, readable font */
+            background-color: #f3f3f3; /* Very light gray background, almost white */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 20px; /* Add some padding around the content */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        /* The main section will now take its width from the login form inside it */
+        .main-content-section {
+            width: auto; /* Allow content to define width */
+            padding: 0; /* Remove padding from this section */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start; /* Align to top on small screens to prevent content squishing */
+                padding-top: 40px; /* Add more top padding on mobile */
+            }
+            .main-content-section {
+                width: 100%; /* Full width on small screens */
+                padding: 0 15px; /* Add horizontal padding for mobile */
+            }
+        }
+
+        /* Custom styles for input fields to exactly match Amazon's look */
+        input[type="text"],
+        input[type="password"] {
+            appearance: none;
+            display: block;
+            width: 100%;
+            padding: 8px 12px; /* px-3 py-2 */
+            border: 1px solid #a1a1a1; /* gray-400 */
+            border-radius: 2px; /* rounded-sm */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+            color: #1f2937; /* gray-900 */
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.25rem;
+            outline: none; /* Remove default outline */
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #e77600; /* Exact Amazon orange border on focus */
+            box-shadow: 0 0 0 3px rgba(228, 121, 17, 0.5); /* Orange glow on focus */
+        }
+
+        /* Custom style for the login button gradient */
+        .amazon-button-gradient {
+            background-image: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+            border: 1px solid #a2a2a2;
+            box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;
+        }
+        .amazon-button-gradient:hover {
+            background-image: linear-gradient(to bottom, #f5d78e, #eeb933);
+        }
+        .amazon-button-gradient:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(247, 160, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <section class="main-content-section">
+        <div class="bg-white p-6 rounded-md shadow-sm border border-gray-200 w-96 max-w-full mx-auto">
+            <h2 class="text-3xl font-normal text-gray-900 mb-5">Login</h2>
+
+            {# Placeholder for error messages (will be replaced by Django template tags) #}
+            {# {% if form.errors %} #}
+            {# <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert"> #}
+            {# <strong class="font-bold">Error!</strong> #}
+            {# <span class="block sm:inline">Your username and password didn't match. Please try again.</span> #}
+            {# </div> #}
+            {# {% endif %} #}
+
+            {# Placeholder for "Heads Up!" message (will be replaced by Django template tags) #}
+            {# {% if next %} #}
+            {# {% if user.is_authenticated %} #}
+            {# <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert"> #}
+            {# <strong class="font-bold">Access Denied!</strong> #}
+            {# <span class="block sm:inline">Your account doesn't have access to this page. To proceed, please log in with an authorized account.</span> #}
+            {# </div> #}
+            {# {% else %} #}
+            {# <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert"> #}
+            {# <strong class="font-bold">Heads Up!</strong> #}
+            {# <span class="block sm:inline">Please log in to see this page.</span> #}
+            {# </div> #}
+            {# {% endif %} #}
+            {# {% endif %} #}
+
+            <form method="post" action="{% url 'login' %}" class="space-y-4">
+                {% csrf_token %} {# UNCOMMENTED: This line is crucial for CSRF protection #}
+
+                <div>
+                    <label for="id_username" class="block text-sm font-semibold text-gray-700 mb-1">Email or mobile phone number</label>
+                    {# Placeholder for Django form field: {{ form.username }} #}
+                    <input type="text" name="username" id="id_username" class="block w-full" required>
+                    {# Placeholder for Django error display: {% if form.username.errors %}<p class="mt-1 text-xs text-red-600">{{ form.username.errors }}</p>{% endif %} #}
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label for="id_password" class="block text-sm font-semibold text-gray-700">Password</label>
+                        <a href="{% url 'password_reset' %}" class="text-xs text-blue-600 hover:text-blue-700">Forgot Password</a>
+                    </div>
+                    {# Placeholder for Django form field: {{ form.password }} #}
+                    <input type="password" name="password" id="id_password" class="block w-full" required>
+                    {# Placeholder for Django error display: {% if form.password.errors %}<p class="mt-1 text-xs text-red-600">{{ form.password.errors }}</p>{% endif %} #}
+                </div>
+
+                <button type="submit" class="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-normal text-gray-900 amazon-button-gradient transition duration-150 ease-in-out">
+                    Login
+                </button>
+                {# Placeholder for hidden 'next' input: <input type="hidden" name="next" value="{{ next }}"> #}
+                <input type="hidden" name="next" value="/books">
+            </form>
+        </div>
+    </section>
+</body>
+</html>

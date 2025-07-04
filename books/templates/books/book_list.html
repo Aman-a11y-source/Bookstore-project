@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font declaration to mimic Amazon Ember.
+           If the 'Amazon Ember' font is not available, it will fall back to Arial, then generic sans-serif. */
+        .font-amazon-ember {
+            font-family: 'Amazon Ember', Arial, sans-serif;
+        }
+        /* Custom scrollbar for webkit browsers for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+            border-radius: 10px;
+        }
+
+        /* Custom CSS for the AB logo */
+        .ab-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; /* Adjust size as needed */
+            height: 40px; /* Adjust size as needed */
+            background-color: #febd69; /* Amazon accent color */
+            color: #131921; /* Dark text on accent background */
+            font-weight: bold;
+            font-size: 1.5rem; /* Adjust font size as needed */
+            border-radius: 50%; /* Make it circular */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            transition: transform 0.2s ease-in-out;
+        }
+        .ab-logo:hover {
+            transform: scale(1.1); /* Slight enlarge on hover */
+        }
+        /* Custom styles for search input field to match Amazon's look */
+        .amazon-search-input {
+            appearance: none;
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #a1a1a1;
+            border-radius: 4px; /* Slightly more rounded than login inputs */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            color: #1f2937;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            outline: none;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .amazon-search-input:focus {
+            border-color: #e77600; /* Amazon orange border on focus */
+            box-shadow: 0 0 0 3px rgba(228, 121, 17, 0.5); /* Orange glow on focus */
+        }
+        /* Custom style for the search button gradient */
+        .amazon-search-button-gradient {
+            background-image: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+            border: 1px solid #a2a2a2;
+            box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;
+        }
+        .amazon-search-button-gradient:hover {
+            background-image: linear-gradient(to bottom, #f5d78e, #eeb933);
+        }
+        .amazon-search-button-gradient:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(247, 160, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <!-- Navigation Bar - Amazon style -->
+    <nav class="bg-[#131921] text-white py-0 shadow-md">
+        <div class="flex items-center h-16 max-w-7xl mx-auto px-4">
+            <!-- AB Logo (left side) -->
+            <div class="ab-logo mr-4">
+                AB
+            </div>
+            
+            <!-- Bookstore Logo/Title -->
+            <span class="font-amazon-ember text-4xl font-bold text-[#febd69] tracking-wider transition-colors duration-300 hover:text-yellow-300 cursor-pointer">
+                Bookstore
+            </span>
+            <!-- Navigation Links -->
+            <div class="hidden sm:flex items-center space-x-6 ml-auto">
+                <a href="#" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">Home</a>
+                <a href="#" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">About Us</a>
+                <a href="#" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">Contact</a>
+                
+                {# Conditional rendering for Sign In / Logout buttons #}
+                {% if user.is_authenticated %}
+                    {# Logout button as a form for POST request #}
+                    <form action="{% url 'logout' %}" method="post" class="inline-block m-0 p-0">
+                        {% csrf_token %}
+                        <button type="submit" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md bg-transparent border-none cursor-pointer">
+                            Logout
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-white hover:text-[#febd69] transition-colors duration-200 text-base font-medium px-2 py-1 rounded-md">Sign In</a>
+                {% endif %}
+            </div>
+            <!-- Hamburger icon for mobile navigation (optional, can be expanded with JS) -->
+            <div class="sm:hidden ml-auto">
+                <button class="text-white text-2xl focus:outline-none">
+                    &#9776; <!-- Hamburger Icon -->
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto my-6 p-6 bg-white rounded-lg shadow-xl">
+        <h2 class="text-center text-3xl font-extrabold text-gray-800 mb-8 pb-4 border-b-4 border-[#febd69] leading-tight tracking-wide">
+            BOOKS
+        </h2>
+
+        <!-- Search Form -->
+        <form method="get" action="{% url 'book.all' %}" class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8"> {# Changed 'book_list' to 'book.all' #}
+            <input type="text" name="q" placeholder="Search books by title..."
+                   value="{{ request.GET.q }}" {# Preserves search query after submission #}
+                   class="amazon-search-input flex-grow max-w-md">
+            <button type="submit" class="amazon-search-button-gradient text-gray-900 font-semibold py-2 px-6 rounded-md shadow-sm transition duration-150 ease-in-out">
+                Search
+            </button>
+        </form>
+
+        <!-- Books Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+            {% for book in book_list %}
+            
+            <div class="flex flex-col items-center p-5 border border-gray-200 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 bg-white transform hover:-translate-y-1">
+                   <img src="{{ book.thumbnailUrl }}" alt="{{ book.title }}" 
+                        class="w-40 h-56 object-cover rounded-lg mb-4 shadow-sm border border-gray-100"
+                        onerror="this.onerror=null;this.src='https://placehold.co/160x224/E0E0E0/333333?text=No+Image';">
+                <h5 class="text-lg font-semibold text-gray-900 text-center mb-2 leading-snug tracking-tight">{{ book.title }}</h5>
+                <!-- You can add more book details here, for example: -->
+                <!-- <p class="text-sm text-gray-600">Author: {{ book.author }}</p> -->
+                <!-- <p class="text-base font-bold text-[#131921] mt-1 mb-3">Price: ${{ book.price }}</p> -->
+                <a href="/books/{{ book.id }}" 
+                   class="mt-auto bg-[#ff9900] text-white font-bold py-2 px-5 rounded-full
+                   hover:bg-[#e48b00] transition-colors duration-200 text-sm
+                   focus:outline-none focus:ring-2 focus:ring-[#febd69] focus:ring-opacity-75 shadow-md
+                   inline-block text-center"> View Details
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Optional: Simple Footer -->
+    <footer class="bg-[#131921] text-white text-center py-6 mt-10">
+        <p class="text-sm">&copy; 2025 Bookstore. All rights reserved.</p>
+        <div class="flex justify-center space-x-4 mt-2">
+            <a href="#" class="text-white hover:text-[#febd69]">Privacy Policy</a>
+            <a href="#" class="text-white hover:text-[#febd69]">Terms of Service</a>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -75,6 +75,19 @@
             outline: none;
             box-shadow: 0 0 0 3px rgba(247, 160, 0, 0.5);
         }
+        /* Style for the "Create your account" button */
+        .amazon-create-account-button {
+            background-color: #e6e6e6; /* Light gray for create account button */
+            border: 1px solid #a2a2a2;
+            color: #131921; /* Dark text */
+            font-weight: normal;
+            box-shadow: 0 1px 0 rgba(0,0,0,.08);
+            transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+        }
+        .amazon-create-account-button:hover {
+            background-color: #d1d1d1;
+            border-color: #8c8c8c;
+        }
     </style>
 </head>
 <body>
@@ -82,35 +95,35 @@
         <div class="bg-white p-6 rounded-md shadow-sm border border-gray-200 w-96 max-w-full mx-auto">
             <h2 class="text-3xl font-normal text-gray-900 mb-5">Login</h2>
 
-            {# Placeholder for error messages (will be replaced by Django template tags) #}
-            {# {% if form.errors %} #}
-            {# <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert"> #}
-            {# <strong class="font-bold">Error!</strong> #}
-            {# <span class="block sm:inline">Your username and password didn't match. Please try again.</span> #}
-            {# </div> #}
-            {# {% endif %} #}
+            {# Display form errors #}
+            {% if form.errors %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">Your username and password didn't match. Please try again.</span>
+            </div>
+            {% endif %}
 
-            {# Placeholder for "Heads Up!" message (will be replaced by Django template tags) #}
-            {# {% if next %} #}
-            {# {% if user.is_authenticated %} #}
-            {# <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert"> #}
-            {# <strong class="font-bold">Access Denied!</strong> #}
-            {# <span class="block sm:inline">Your account doesn't have access to this page. To proceed, please log in with an authorized account.</span> #}
-            {# </div> #}
-            {# {% else %} #}
-            {# <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert"> #}
-            {# <strong class="font-bold">Heads Up!</strong> #}
-            {# <span class="block sm:inline">Please log in to see this page.</span> #}
-            {# </div> #}
-            {# {% endif %} #}
-            {# {% endif %} #}
+            {# Display next page messages #}
+            {% if next %}
+                {% if user.is_authenticated %}
+                <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert">
+                    <strong class="font-bold">Access Denied!</strong>
+                    <span class="block sm:inline">Your account doesn't have access to this page. To proceed, please log in with an authorized account.</span>
+                </div>
+                {% else %}
+                <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded-md relative mb-4 text-sm" role="alert">
+                    <strong class="font-bold">Heads Up!</strong>
+                    <span class="block sm:inline">Please log in to see this page.</span>
+                </div>
+                {% endif %}
+            {% endif %}
 
             <form method="post" action="{% url 'login' %}" class="space-y-4">
-                {% csrf_token %} {# UNCOMMENTED: This line is crucial for CSRF protection #}
+                {% csrf_token %}
 
                 <div>
                     <label for="id_username" class="block text-sm font-semibold text-gray-700 mb-1">Email or mobile phone number</label>
-                    {# Placeholder for Django form field: {{ form.username }} #}
+                    {# This is a placeholder for Django form field. In your actual Django app, it would be {{ form.username }} #}
                     <input type="text" name="username" id="id_username" class="block w-full" required>
                     {# Placeholder for Django error display: {% if form.username.errors %}<p class="mt-1 text-xs text-red-600">{{ form.username.errors }}</p>{% endif %} #}
                 </div>
@@ -127,9 +140,16 @@
                 <button type="submit" class="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-normal text-gray-900 amazon-button-gradient transition duration-150 ease-in-out">
                     Login
                 </button>
-                {# Placeholder for hidden 'next' input: <input type="hidden" name="next" value="{{ next }}"> #}
-                <input type="hidden" name="next" value="/books">
+                <input type="hidden" name="next" value="{{ next }}"> {# Use Django's {{ next }} variable #}
             </form>
+        </div>
+
+        {# Add the "Create Account" section below the login box #}
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-600 mb-3">New to Bookstore?</p>
+            <a href="{% url 'register' %}" class="inline-block w-96 max-w-full py-2 px-4 rounded-md shadow-sm text-sm font-normal amazon-create-account-button hover:amazon-create-account-button-hover transition duration-150 ease-in-out">
+                Create your Bookstore account
+            </a>
         </div>
     </section>
 </body>

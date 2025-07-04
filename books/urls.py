@@ -1,5 +1,4 @@
 from django.urls import path,include
-
 from . import views
 
 urlpatterns = [
@@ -7,6 +6,5 @@ urlpatterns = [
     path("<int:pk>",views.BookDetailView.as_view(), name='book.show'),
     path('<int:id>/review',views.review, name='book.review'),
     path("<str:author>",views.author, name="author.books"),
-
-     # Include authentication URLs
+    path('register/', views.register, name='register'), # <--- NEW REGISTRATION URL
 ]

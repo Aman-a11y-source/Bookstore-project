@@ -1,5 +1,6 @@
 from django import forms
 from .models import Review # Import your Review model
+from django.contrib.auth.forms import UserCreationForm # Import Django's built-in UserCreationForm
 
 class ReviewForm(forms.ModelForm):
     # Explicitly define the image field as not required
@@ -20,6 +21,14 @@ class ReviewForm(forms.ModelForm):
                     "rows": "4", # Retained 4 rows for better usability
                 }
             ),
-            # The 'image' field's widget is now defined above, so no need to repeat it here.
-            # If you were to define it here, it would override the one above.
         }
+
+# Updated Registration Form - Now only username and password
+class RegisterForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        # No need to add 'email' field here. UserCreationForm.Meta.fields already contains
+        # 'username', 'password', 'password2'.
+        fields = UserCreationForm.Meta.fields 
+
+    # Removed the clean_email method as the email field is no longer part of this form.
+

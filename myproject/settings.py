@@ -125,11 +125,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory to collect static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
-LOGIN_REDIRECT_URL = '/books'  # Redirect to books index after login
-LOGIN_URL='/login'  # URL to redirect to for login
-LOGOUT_REDIRECT_URL = '/login'  # Redirect to login after logout
+LOGIN_REDIRECT_URL = '/books'  
+LOGIN_URL='/login' 
+LOGOUT_REDIRECT_URL = '/login'  
 
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER = '74ea4568716d15'
@@ -138,5 +138,5 @@ EMAIL_PORT = '2525'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
- # Directory to store uploaded media
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
